@@ -367,6 +367,31 @@ class ControllerTests: XCTestCase {
 
         XCTAssertEqual(fpc.state, .half)
     }
+
+    func test_modalDismissTransition_withoutPanelInContext() {
+        // UIKit can run the transition with a context whose from-view controller isn't the panel,
+        // for instance when a stack of presented view controllers is dismissed in one step.
+        let context = MockTransitionContext(viewControllers: [.from: UIViewController()])
+
+        ModalDismissTransition().animateTransition(using: context)
+        waitRunLoop(secs: 0.1)
+
+        XCTAssertEqual(context.completedTransition, true)
+    }
+
+    func test_modalPresentTransition_withoutPanelInContext() {
+        let context = MockTransitionContext(viewControllers: [.to: UIViewController()])
+
+        ModalPresentTransition().animateTransition(using: context)
+        waitRunLoop(secs: 0.1)
+
+        XCTAssertEqual(context.completedTransition, true)
+    }
+
+    func test_modalDismissTransition_zeroDurationWhenPanelIsMissing() {
+        let context = MockTransitionContext(viewControllers: [.from: UIViewController()])
+        XCTAssertEqual(ModalDismissTransition().transitionDuration(using: context), 0.0)
+    }
 }
 
 private class MyZombieViewController: UIViewController, FloatingPanelLayout, FloatingPanelBehavior, FloatingPanelControllerDelegate {
