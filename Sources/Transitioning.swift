@@ -2,6 +2,22 @@
 
 import UIKit
 
+/// An animator that immediately completes `transitionContext`.
+///
+/// UIKit can run a panel transition with a context whose participating view controller isn't the
+/// panel — for instance when a stack of presented controllers is dismissed in one step. Finishing
+/// the transition leaves the presentation state consistent, where trapping would kill the app.
+private func makeCompletingAnimator(
+    for transitionContext: UIViewControllerContextTransitioning
+) -> UIViewImplicitlyAnimating {
+    let animator = UIViewPropertyAnimator(duration: 0, curve: .linear)
+    animator.addAnimations {}
+    animator.addCompletion { _ in
+        transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
+    }
+    return animator
+}
+
 class ModalTransition: NSObject, UIViewControllerTransitioningDelegate {
     func animationController(forPresented presented: UIViewController,
                              presenting: UIViewController,
@@ -93,7 +109,7 @@ class ModalPresentTransition: NSObject, UIViewControllerAnimatedTransitioning {
     func interruptibleAnimator(using transitionContext: UIViewControllerContextTransitioning) -> UIViewImplicitlyAnimating {
         guard
             let fpc = transitionContext.viewController(forKey: .to) as? FloatingPanelController
-        else { fatalError() }
+        else { return makeCompletingAnimator(for: transitionContext) }
 
         if let animator = fpc.transitionAnimator {
             return animator
@@ -104,10 +120,9 @@ class ModalPresentTransition: NSObject, UIViewControllerAnimatedTransitioning {
             fpc?.suspendTransitionAnimator(false)
             transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
         }
-        guard let transitionAnimator = fpc.transitionAnimator else {
-            fatalError("The panel state must be `hidden` but it is `\(fpc.state)`")
-        }
-        return transitionAnimator
+        // `show(animated:)` above already scheduled `completeTransition`, so this fallback must not
+        // complete the context a second time.
+        return fpc.transitionAnimator ?? UIViewPropertyAnimator(duration: 0, curve: .linear)
     }
 
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
@@ -128,7 +143,7 @@ class ModalDismissTransition: NSObject, UIViewControllerAnimatedTransitioning {
     func interruptibleAnimator(using transitionContext: UIViewControllerContextTransitioning) -> UIViewImplicitlyAnimating {
         guard
             let fpc = transitionContext.viewController(forKey: .from) as? FloatingPanelController
-        else { fatalError() }
+        else { return makeCompletingAnimator(for: transitionContext) }
 
         if let animator = fpc.transitionAnimator {
             return animator
@@ -139,7 +154,9 @@ class ModalDismissTransition: NSObject, UIViewControllerAnimatedTransitioning {
             fpc?.suspendTransitionAnimator(false)
             transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
         }
-        return fpc.transitionAnimator!
+        // `hide(animated:)` above already scheduled `completeTransition`, so this fallback must not
+        // complete the context a second time.
+        return fpc.transitionAnimator ?? UIViewPropertyAnimator(duration: 0, curve: .linear)
     }
 
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
