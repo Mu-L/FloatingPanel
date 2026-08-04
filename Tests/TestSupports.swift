@@ -109,3 +109,33 @@ class MockTransitionCoordinator: NSObject, UIViewControllerTransitionCoordinator
     var targetTransform: CGAffineTransform = .identity
 }
 
+class MockTransitionContext: NSObject, UIViewControllerContextTransitioning {
+    private let viewControllers: [UITransitionContextViewControllerKey: UIViewController]
+    private(set) var completedTransition: Bool?
+
+    init(viewControllers: [UITransitionContextViewControllerKey: UIViewController]) {
+        self.viewControllers = viewControllers
+    }
+
+    func viewController(forKey key: UITransitionContextViewControllerKey) -> UIViewController? {
+        return viewControllers[key]
+    }
+    func completeTransition(_ didComplete: Bool) {
+        completedTransition = didComplete
+    }
+
+    let containerView = UIView()
+    var isAnimated: Bool = true
+    var isInteractive: Bool = false
+    var transitionWasCancelled: Bool = false
+    var presentationStyle: UIModalPresentationStyle = .custom
+    var targetTransform: CGAffineTransform = .identity
+    func updateInteractiveTransition(_ percentComplete: CGFloat) {}
+    func finishInteractiveTransition() {}
+    func cancelInteractiveTransition() {}
+    func pauseInteractiveTransition() {}
+    func view(forKey key: UITransitionContextViewKey) -> UIView? { nil }
+    func initialFrame(for vc: UIViewController) -> CGRect { .zero }
+    func finalFrame(for vc: UIViewController) -> CGRect { .zero }
+}
+
