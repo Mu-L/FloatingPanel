@@ -1,5 +1,22 @@
 # ChangeLog
 
+## [3.2.3](https://github.com/scenee/FloatingPanel/releases/tag/3.2.3)
+
+### Fixed
+
+- Fixed a crash in `interruptibleAnimator(using:)` by completing the transition when its context has no panel controller (#686).
+
+## [3.2.2](https://github.com/scenee/FloatingPanel/releases/tag/3.2.2)
+
+### Fixed
+
+- Fixed panel interactivity broken by `floatingPanelState(_:)` with delegate callbacks (#680).
+- Fixed stale binding value reverting panel state during SwiftUI re-renders.
+
+## Improvements
+
+- Added `CoordinatorProxyTests` to test `FloatingPanelCoordinatorProxy`.
+
 ## [3.2.1](https://github.com/scenee/FloatingPanel/releases/tag/3.2.1)
 
 ### Fixed
