@@ -265,5 +265,4 @@ Shin Yamamoto <shin@scenee.com> | [@scenee](https://twitter.com/scenee)
 
 FloatingPanel is available under the MIT license. See the LICENSE file for more info.
 
-[![Star History Chart](https://api.star-history.com/svg?repos=scenee/FloatingPanel&type=date&legend=top-left)](https://www.star-history.com/#scenee/FloatingPanel&type=date&legend=top-left)
-
+[![Star History Chart](https://api.star-history.com/chart?repos=scenee/FloatingPanel&type=date&legend=bottom-right&sealed_token=hlTfSXQsNwCITFlHEsrJG9pJImm_TKeB6PzBi4z06wSXMqIIY90XF2_TKWPQw-CUn_yFQwC8gA_ZR21eIAuqlY5fZdT1z-PJGbfUu5tw7jtp01GCJkRg2vqwFpiuJvYvkxKgYGJZufEWwdDzV7KM1JD22qBeob6FuD6yYfN10hRVRkT-Ojgm_tfr7nrW)](https://www.star-history.com/?repos=scenee%2FFloatingPanel&type=date&legend=bottom-right)
