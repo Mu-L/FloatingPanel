@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		54476E712DBA5F3C00603086 /* UIHostingController+ignoreKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54476E702DBA5F3C00603086 /* UIHostingController+ignoreKeyboard.swift */; };
 		6467E8642699AC5F00565F4F /* SurfaceAppearance+phone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6467E8632699AC5F00565F4F /* SurfaceAppearance+phone.swift */; };
 		6467E86A2699B19D00565F4F /* SearchPanelPhoneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6467E8692699B19D00565F4F /* SearchPanelPhoneDelegate.swift */; };
 		64A5B7232691323900BCAA05 /* MapsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64A5B7222691323900BCAA05 /* MapsApp.swift */; };
@@ -36,7 +35,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		54476E702DBA5F3C00603086 /* UIHostingController+ignoreKeyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIHostingController+ignoreKeyboard.swift"; sourceTree = "<group>"; };
 		6467E8632699AC5F00565F4F /* SurfaceAppearance+phone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SurfaceAppearance+phone.swift"; sourceTree = "<group>"; };
 		6467E8692699B19D00565F4F /* SearchPanelPhoneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPanelPhoneDelegate.swift; sourceTree = "<group>"; };
 		64A5B71F2691323900BCAA05 /* Maps-SwiftUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Maps-SwiftUI.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -85,7 +83,6 @@
 				64BE55702691BBB0006D98BD /* Representable */,
 				64A5B7222691323900BCAA05 /* MapsApp.swift */,
 				64A5B7242691323900BCAA05 /* ContentView.swift */,
-				54476E702DBA5F3C00603086 /* UIHostingController+ignoreKeyboard.swift */,
 				64A5B73B2691469900BCAA05 /* FloatingPanelContentView.swift */,
 				6467E8692699B19D00565F4F /* SearchPanelPhoneDelegate.swift */,
 				6467E8632699AC5F00565F4F /* SurfaceAppearance+phone.swift */,
@@ -186,7 +183,6 @@
 				64A5B738269134CA00BCAA05 /* VisualEffectBlur.swift in Sources */,
 				64A5B7402691532400BCAA05 /* ResultsList.swift in Sources */,
 				6467E8642699AC5F00565F4F /* SurfaceAppearance+phone.swift in Sources */,
-				54476E712DBA5F3C00603086 /* UIHostingController+ignoreKeyboard.swift in Sources */,
 				64A5B7252691323900BCAA05 /* ContentView.swift in Sources */,
 				64A5B7232691323900BCAA05 /* MapsApp.swift in Sources */,
 				64A5B73C2691469900BCAA05 /* FloatingPanelContentView.swift in Sources */,

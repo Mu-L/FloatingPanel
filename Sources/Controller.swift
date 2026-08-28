@@ -139,6 +139,17 @@ import os.log
     ) -> Bool
 }
 
+/// An internal interface for a hosting controller that provides the actual parent
+/// view controller for the panel instead of itself.
+///
+/// The SwiftUI integration adopts this to keep `UIHostingController.view` free of
+/// external subviews, which UIKit doesn't support as of iOS 26. See
+/// ``FloatingPanelController/addPanel(toParent:at:animated:completion:)``.
+protocol FloatingPanelHostingControllerProviding: UIViewController {
+    /// The view controller that becomes the panel's parent instead of this one.
+    var parentForFloatingPanel: UIViewController { get }
+}
+
 ///
 /// A container view controller to display a panel to present contents in parallel as a user wants.
 ///
@@ -526,8 +537,15 @@ open class FloatingPanelController: UIViewController {
     ///     - viewIndex: Insert the surface view managed by the controller below the specified view index. By default, the surface view will be added to the end of the parent list of subviews.
     ///     - animated: Pass true to animate the presentation; otherwise, pass false.
     ///     - completion: The block to execute after the presentation finishes. This block has no return value and takes no parameters. You may specify nil for this parameter.
+    /// - Note: If `parent` designates another view controller to host the panel — as the main
+    ///   hosting controller of the SwiftUI integration does to keep the panel's view out of
+    ///   `UIHostingController.view`(iOS 26+) — the panel is added to the designated view
+    ///   controller instead, and `viewIndex` is based on the subviews of its view.
     @objc(addPanelToParent:at:animated:completion:)
     public func addPanel(toParent parent: UIViewController, at viewIndex: Int = -1, animated: Bool = false, completion: (() -> Void)? = nil) {
+        // #688: UIKit doesn't support adding a subview into `UIHostingController.view`(iOS 26+),
+        // so such a parent can provide the actual parent view controller for the panel.
+        let parent = (parent as? FloatingPanelHostingControllerProviding)?.parentForFloatingPanel ?? parent
         guard self.parent == nil else {
             os_log(msg, log: sysLog, type: .error, "Warning: already added to a parent(\(parent))")
             return

@@ -3,6 +3,7 @@
 #if canImport(SwiftUI)
 import SwiftUI
 import Combine
+import os.log
 
 /// A SwiftUI view that integrates a floating panel with customizable content.
 ///
@@ -91,8 +92,9 @@ struct FloatingPanelView<MainView: View, ContentView: View>: UIViewControllerRep
         )
     }
 
-    func makeUIViewController(context: Context) -> UIHostingController<MainView> {
-        let mainHostingController = UIHostingController(rootView: main)
+    func makeUIViewController(context: Context) -> FloatingPanelMainHostingContainerController<MainView> {
+        let containerViewController = FloatingPanelMainHostingContainerController(rootView: main)
+        let mainHostingController = containerViewController.mainHostingController
         mainHostingController.view.backgroundColor = nil
         let contentHostingController = UIHostingController(rootView: content(context.coordinator.proxy))
         context.coordinator.setupFloatingPanel(
@@ -103,14 +105,14 @@ struct FloatingPanelView<MainView: View, ContentView: View>: UIViewControllerRep
         context.coordinator.observeStateChanges()
         context.coordinator.update(layout: layout, behavior: behavior)
 
-        return mainHostingController
+        return containerViewController
     }
 
     func updateUIViewController(
-        _ uiViewController: UIHostingController<MainView>,
+        _ uiViewController: FloatingPanelMainHostingContainerController<MainView>,
         context: Context
     ) {
-        uiViewController.rootView = main
+        uiViewController.mainHostingController.rootView = main
 
         context.coordinator.updateContent(content(context.coordinator.proxy))
         context.coordinator.onUpdate(context: context)
@@ -149,6 +151,86 @@ extension FloatingPanelView {
             },
             transaction: context.transaction
         )
+    }
+}
+
+/// A container view controller that hosts the main SwiftUI view and the panel's view
+/// as siblings.
+///
+/// UIKit doesn't support adding a subview into `UIHostingController.view` as of iOS 26.
+/// So this container hosts the panel's view above the main hosting view in its root view,
+/// instead of ``FloatingPanelController/addPanel(toParent:at:animated:completion:)``
+/// adding the panel's view into the main `UIHostingController.view` directly.
+@available(iOS 14, *)
+class FloatingPanelMainHostingContainerController<Main: View>: UIViewController {
+    let mainHostingController: FloatingPanelMainHostingController<Main>
+
+    init(rootView: Main) {
+        self.mainHostingController = FloatingPanelMainHostingController(rootView: rootView)
+        super.init(nibName: nil, bundle: nil)
+        self.mainHostingController.containerViewController = self
+    }
+
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    override func loadView() {
+        let view = FloatingPanelMainContainerView()
+        view.backgroundColor = .clear
+        view.mainHostingView = mainHostingController.view
+        self.view = view
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        addChild(mainHostingController)
+        mainHostingController.view.frame = view.bounds
+        mainHostingController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        view.addSubview(mainHostingController.view)
+        mainHostingController.didMove(toParent: self)
+    }
+
+    // Consult the main hosting controller as the returned view controller used to be
+    // the root of this representable before the container was introduced.
+    override var childForStatusBarStyle: UIViewController? { mainHostingController }
+    override var childForStatusBarHidden: UIViewController? { mainHostingController }
+    override var childForScreenEdgesDeferringSystemGestures: UIViewController? { mainHostingController }
+    override var childForHomeIndicatorAutoHidden: UIViewController? { mainHostingController }
+    override var childViewControllerForPointerLock: UIViewController? { mainHostingController }
+}
+
+/// The root view of ``FloatingPanelMainHostingContainerController``.
+///
+/// This view keeps the behaviors which the main `UIHostingController.view` provided
+/// as the root of the representable before the container was introduced:
+/// * Passing through touches on regions without any hit-testable content, by
+///   `PassthroughView.hitTest(_:with:)` with no event forwarding view.
+/// * Reporting the main hosting view's fitting size for SwiftUI's ideal-size negotiation.
+@available(iOS 14, *)
+class FloatingPanelMainContainerView: PassthroughView {
+    weak var mainHostingView: UIView?
+
+    override func sizeThatFits(_ size: CGSize) -> CGSize {
+        mainHostingView?.sizeThatFits(size) ?? super.sizeThatFits(size)
+    }
+}
+
+/// The hosting controller for the main SwiftUI view, which delegates hosting of the
+/// panel's view to its container view controller.
+@available(iOS 14, *)
+class FloatingPanelMainHostingController<Main: View>: UIHostingController<Main>, FloatingPanelHostingControllerProviding {
+    weak var containerViewController: UIViewController?
+
+    var parentForFloatingPanel: UIViewController {
+        guard let containerViewController = containerViewController else {
+            let log = "Warning: The container view controller of \(self) has gone, so the panel's view is added into UIHostingController.view, which UIKit doesn't support as of iOS 26."
+            os_log(msg, log: sysLog, type: .error, log)
+            return self
+        }
+        return containerViewController
     }
 }
 

@@ -38,9 +38,6 @@ final class MapPanelCoordinator: FloatingPanelCoordinator {
         mainHostingController: UIHostingController<Main>,
         contentHostingController: UIHostingController<Content>
     ) {
-        mainHostingController.ignoresKeyboardSafeArea()
-        contentHostingController.ignoresKeyboardSafeArea()
-
         if #available(iOS 16, *) {
             if #unavailable(iOS 26) {
                 // Set the delegate object

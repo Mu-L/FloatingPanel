@@ -6,10 +6,7 @@ import SwiftUI
 ///
 /// Credits to https://noahgilmore.com/blog/swiftui-self-sizing-cells/ .
 public final class HostingCell<Content: View>: UITableViewCell {
-    private let hostingController = UIHostingController<Content?>(
-        rootView: nil,
-        ignoresKeyboard: true
-    )
+    private let hostingController = UIHostingController<Content?>(rootView: nil)
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)

@@ -241,3 +241,56 @@ extension CoordinatorProxyTests {
         XCTAssertEqual(spy.moveCalls.first?.animated, false)
     }
 }
+
+// MARK: - Issue #688: addPanel(toParent:) must not add the panel's view into UIHostingController.view
+
+/// Tests for the parent substitution that keeps the panel's view out of
+/// `UIHostingController.view`, which UIKit doesn't support as of iOS 26.
+@available(iOS 14, *)
+extension CoordinatorProxyTests {
+    /// `addPanel(toParent:)` with the main hosting controller must attach the panel
+    /// to its container so that the panel's view is laid out above the main hosting
+    /// view in their common superview.
+    func test_addPanel_hostsPanelInMainContainer() {
+        let container = FloatingPanelMainHostingContainerController(rootView: EmptyView())
+        let mainHostingController = container.mainHostingController
+        let fpc = FloatingPanelController()
+
+        fpc.addPanel(toParent: mainHostingController, animated: false)
+
+        XCTAssertTrue(
+            fpc.parent === container,
+            "The panel must be added to the container instead of the hosting controller"
+        )
+        XCTAssertTrue(fpc.view.superview === container.view)
+        XCTAssertFalse(
+            fpc.view.isDescendant(of: mainHostingController.view),
+            "The panel's view must not be a subview of UIHostingController.view"
+        )
+
+        let subviews = container.view.subviews
+        guard
+            let mainIndex = subviews.firstIndex(of: mainHostingController.view),
+            let panelIndex = subviews.firstIndex(of: fpc.view)
+        else {
+            XCTFail("Both the main hosting view and the panel's view must be in the container's view")
+            return
+        }
+        XCTAssertLessThan(
+            mainIndex, panelIndex,
+            "The panel's view must be laid out above the main hosting view"
+        )
+    }
+
+    /// When the container has gone, `parentForFloatingPanel` falls back to the hosting
+    /// controller itself instead of crashing.
+    func test_parentForFloatingPanel_fallsBackToSelf_whenContainerIsGone() {
+        var container: FloatingPanelMainHostingContainerController<EmptyView>?
+            = FloatingPanelMainHostingContainerController(rootView: EmptyView())
+        let mainHostingController = container!.mainHostingController
+
+        container = nil
+
+        XCTAssertTrue(mainHostingController.parentForFloatingPanel === mainHostingController)
+    }
+}
