@@ -1,14 +1,14 @@
 # ChangeLog
 
-## Unreleased
+## [3.2.4](https://github.com/scenee/FloatingPanel/releases/tag/3.2.4)
 
 ### Fixed
 
-- Fixed the unsupported view hierarchy warning on iOS 26 by laying out a panel's view as a sibling of the main `UIHostingController.view` in the SwiftUI integration (#688).
+- Fixed the unsupported view hierarchy warning on iOS 26 in the SwiftUI integration (#688).
 
 ### Changed
 
-- The keyboard safe area of the main `UIHostingController.view` no longer propagates to a panel in the SwiftUI integration, so a panel and its safe area no longer shift with the keyboard. Workarounds disabling this propagation, such as the `ignoresKeyboardSafeArea()` helper in the Maps-SwiftUI example, are no longer needed (the helper has been removed from the example).
+- A panel no longer shifts with the keyboard in the SwiftUI integration, since the keyboard safe area of the main `UIHostingController.view` no longer propagates to it. Workarounds such as the `ignoresKeyboardSafeArea()` helper are no longer needed (it has been removed from the Maps-SwiftUI example).
 
 ## [3.2.3](https://github.com/scenee/FloatingPanel/releases/tag/3.2.3)
 
