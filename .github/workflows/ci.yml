@@ -19,8 +19,8 @@ jobs:
       matrix:
         include:
           - swift: "5"
-            xcode: "26.2"
-            runs-on: macos-15
+            xcode: "26.6"
+            runs-on: macos-26
           - swift: "5"
             xcode: "16.4"
             runs-on: macos-15
@@ -40,11 +40,11 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - os: "26.2"
-            xcode: "26.2"
-            sim: "iPhone 16 Pro"
+          - os: "26.5"
+            xcode: "26.6"
+            sim: "iPhone 17 Pro"
             parallel: NO # Stop random test job failures
-            runs-on: macos-15
+            runs-on: macos-26
           - os: "18.5"
             xcode: "16.4"
             sim: "iPhone 16 Pro"
@@ -67,9 +67,9 @@ jobs:
     timeout-minutes: 20
 
   example:
-    runs-on: macos-15
+    runs-on: macos-26
     env:
-      DEVELOPER_DIR: /Applications/Xcode_26.2.app/Contents/Developer
+      DEVELOPER_DIR: /Applications/Xcode_26.6.app/Contents/Developer
     strategy:
       fail-fast: false
       matrix:
@@ -96,7 +96,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        xcode: ["26.2", "16.4", "15.4"]
+        xcode: ["26.6", "16.4", "15.4"]
         platform: [iphoneos, iphonesimulator]
         arch: [x86_64, arm64]
         exclude:
@@ -105,13 +105,13 @@ jobs:
         include:
           # 26.x
           - platform: iphoneos
-            xcode: "26.2"
-            sys: "ios26.2"
-            runs-on: macos-15
+            xcode: "26.6"
+            sys: "ios26.5"
+            runs-on: macos-26
           - platform: iphonesimulator
-            xcode: "26.2"
-            sys: "ios26.2-simulator"
-            runs-on: macos-15
+            xcode: "26.6"
+            sys: "ios26.5-simulator"
+            runs-on: macos-26
           # 18.5
           - platform: iphoneos
             xcode: "16.4"
@@ -139,9 +139,9 @@ jobs:
             -Xswiftc "-target" -Xswiftc "${{ matrix.arch }}-apple-${{ matrix.sys }}"
 
   cocoapods:
-    runs-on: macos-15
+    runs-on: macos-26
     env:
-      DEVELOPER_DIR: /Applications/Xcode_26.2.app/Contents/Developer
+      DEVELOPER_DIR: /Applications/Xcode_26.6.app/Contents/Developer
     steps:
       - uses: actions/checkout@v7
       - name: "CocoaPods: pod lib lint"
