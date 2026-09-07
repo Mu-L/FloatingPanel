@@ -28,7 +28,7 @@ jobs:
             xcode: "15.4"
             runs-on: macos-14
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Building in Swift ${{ matrix.swift }}
         run: xcodebuild -scheme FloatingPanel SWIFT_VERSION=${{ matrix.swift }} clean build
 
@@ -56,7 +56,7 @@ jobs:
             parallel: NO # Stop random test job failures
             runs-on: macos-14
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Testing in iOS ${{ matrix.os }}
         run: |
           xcodebuild clean test \
@@ -81,7 +81,7 @@ jobs:
           - example: "SamplesObjC"
           - example: "SamplesSwiftUI"
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Building ${{ matrix.example }}
         run: |
           xcodebuild clean build \
@@ -131,7 +131,7 @@ jobs:
             sys: "ios17.2-simulator"
             runs-on: macos-14
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: "Swift Package Manager build"
         run: |
           xcrun swift build \
@@ -143,7 +143,7 @@ jobs:
     env:
       DEVELOPER_DIR: /Applications/Xcode_26.2.app/Contents/Developer
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: "CocoaPods: pod lib lint"
         run: pod lib lint --allow-warnings --verbose
       - name: "CocoaPods: pod spec lint"
