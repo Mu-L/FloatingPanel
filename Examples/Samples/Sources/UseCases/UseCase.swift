@@ -73,13 +73,7 @@ extension UseCase {
     private var content: Content {
         switch self {
         case .trackingTableView: return .viewController(DebugTableViewController())
-        case .trackingCollectionViewList:
-            if #available(iOS 14, *) {
-                return .viewController(DebugListCollectionViewController())
-            } else {
-                let msg = "UICollectionLayoutListConfiguration is unavailable.\nBuild this app on iOS 14 and later."
-                return makeUnavailableViewContent(message: msg)
-            }
+        case .trackingCollectionViewList: return .viewController(DebugListCollectionViewController())
         case .trackingTextView: return .storyboard("ConsoleViewController") // Storyboard only
         case .showDetail: return .storyboard(String(describing: DetailViewController.self))
         case .showModal: return .storyboard(String(describing: ModalViewController.self))
@@ -102,14 +96,9 @@ extension UseCase {
         case .showAdaptivePanelWithTableView: return .storyboard(String(describing: TableViewControllerForAdaptiveLayout.self))
         case .showAdaptivePanelWithCollectionView,
             .showAdaptivePanelWithCompositionalCollectionView:
-            if #available(iOS 13, *) {
-                let vc = CollectionViewControllerForAdaptiveLayout()
-                vc.layoutType = self == .showAdaptivePanelWithCollectionView ? .flow : .compositional
-                return .viewController(vc)
-            } else {
-                let msg = "Compositional layout is unavailable.\nBuild this app on iOS 13 and later."
-                return makeUnavailableViewContent(message: msg)
-            }
+            let vc = CollectionViewControllerForAdaptiveLayout()
+            vc.layoutType = self == .showAdaptivePanelWithCollectionView ? .flow : .compositional
+            return .viewController(vc)
         case .showCustomStatePanel: return .viewController(DebugTableViewController())
         case .showCustomBackdrop: return .viewController(UIViewController())
         }
@@ -123,12 +112,5 @@ extension UseCase {
             vc.loadViewIfNeeded()
             return vc
         }
-    }
-
-    private func makeUnavailableViewContent(message: String) -> Content {
-        let vc = UnavailableViewController()
-        vc.loadViewIfNeeded()
-        vc.label.text = message
-        return .viewController(vc)
     }
 }

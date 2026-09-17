@@ -94,9 +94,7 @@ extension MainViewController {
 extension FloatingPanelController {
     func setAppearanceForPhone() {
         let appearance = SurfaceAppearance()
-        if #available(iOS 13.0, *) {
-            appearance.cornerCurve = .continuous
-        }
+        appearance.cornerCurve = .continuous
         appearance.cornerRadius = 8.0
         appearance.backgroundColor = .clear
         surfaceView.appearance = appearance

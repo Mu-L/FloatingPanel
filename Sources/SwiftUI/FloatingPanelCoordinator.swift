@@ -23,7 +23,6 @@ import SwiftUI
 /// 2. Implement the required initializer and properties
 /// 3. Handle the setup of the floating panel with the provided hosting controllers
 /// 4. Optionally provide custom implementation for `onUpdate` method
-@available(iOS 14, *)
 public protocol FloatingPanelCoordinator {
     /// The type of events this coordinator can dispatch to its host view.
     ///
@@ -70,7 +69,6 @@ public protocol FloatingPanelCoordinator {
     ) where Representable: UIViewControllerRepresentable
 }
 
-@available(iOS 14, *)
 extension FloatingPanelCoordinator {
     /// A convenience property that returns the underlying FloatingPanelController.
     ///
@@ -88,7 +86,6 @@ extension FloatingPanelCoordinator {
 /// minimal configuration. It creates a standard ``FloatingPanelController`` with default settings
 /// and an empty event enumeration. Use this coordinator for basic floating panel integration
 /// when you don't need custom event handling or special configuration.
-@available(iOS 14, *)
 public final class FloatingPanelDefaultCoordinator: FloatingPanelCoordinator {
     public enum Event {}
 

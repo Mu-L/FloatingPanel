@@ -283,13 +283,13 @@ extension DebugTableViewController: UITableViewDelegate {
         execute(command: action, sourceView: cell ?? tableView)
     }
 
-    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-        return [
-            UITableViewRowAction(style: .destructive, title: "Delete", handler: { (action, path) in
-                self.items.remove(at: path.row)
-                tableView.deleteRows(at: [path], with: .automatic)
-            }),
-        ]
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let delete = UIContextualAction(style: .destructive, title: "Delete") { (_, _, completion) in
+            self.items.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+            completion(true)
+        }
+        return UISwipeActionsConfiguration(actions: [delete])
     }
 
     func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {

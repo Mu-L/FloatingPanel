@@ -1,9 +1,7 @@
 // Copyright 2018 the FloatingPanel authors. All rights reserved. MIT license.
 
 import XCTest
-#if canImport(Combine)
 import Combine
-#endif
 @testable import FloatingPanel
 
 class CoreTests: XCTestCase {
@@ -1026,21 +1024,17 @@ class CoreTests: XCTestCase {
         XCTAssertEqual(delegate.willAttract, false)
     }
 
-    @available(iOS 13.0, *)
     func test_statePublisher() throws {
         let fpc = FloatingPanelController()
         fpc.showForTest()
 
         XCTAssertEqual(fpc.state, .half)
 
-        // Verify statePublisher is available on iOS 13+
-        XCTAssertNotNil(fpc.floatingPanel.statePublisher)
-
         var receivedStates: [FloatingPanelState] = []
         var cancellables = Set<AnyCancellable>()
 
         // Subscribe to statePublisher
-        fpc.floatingPanel.statePublisher?
+        fpc.floatingPanel.statePublisher
             .sink { state in
                 receivedStates.append(state)
             }

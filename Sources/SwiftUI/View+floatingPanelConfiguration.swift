@@ -3,7 +3,6 @@
 #if canImport(SwiftUI)
 import SwiftUI
 
-@available(iOS 14, *)
 extension EnvironmentValues {
     struct ContentInsetAdjustmentBehaviorKey: EnvironmentKey {
         static var defaultValue: FloatingPanelController.ContentInsetAdjustmentBehavior = .always
@@ -24,7 +23,6 @@ extension EnvironmentValues {
     }
 }
 
-@available(iOS 14, *)
 extension View {
     /// Sets the content mode for floating panels within this view.
     ///

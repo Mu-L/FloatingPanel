@@ -44,7 +44,6 @@ import os.log
 /// By default, ``FloatingPanelView`` uses ``FloatingPanelDefaultCoordinator`` to manage the
 /// relationship between SwiftUI and UIKit components, but you can provide a custom
 /// coordinator for more advanced control and event handling.
-@available(iOS 14, *)
 struct FloatingPanelView<MainView: View, ContentView: View>: UIViewControllerRepresentable {
     /// A closure that creates the coordinator responsible for managing the floating panel.
     let coordinator: () -> (any FloatingPanelCoordinator)
@@ -122,7 +121,6 @@ struct FloatingPanelView<MainView: View, ContentView: View>: UIViewControllerRep
     }
 }
 
-@available(iOS 14, *)
 extension FloatingPanelView {
     // MARK: - Environment updates
     /// Applies environment values to the floating panel controller.
@@ -161,7 +159,6 @@ extension FloatingPanelView {
 /// So this container hosts the panel's view above the main hosting view in its root view,
 /// instead of ``FloatingPanelController/addPanel(toParent:at:animated:completion:)``
 /// adding the panel's view into the main `UIHostingController.view` directly.
-@available(iOS 14, *)
 class FloatingPanelMainHostingContainerController<Main: View>: UIViewController {
     let mainHostingController: FloatingPanelMainHostingController<Main>
 
@@ -209,7 +206,6 @@ class FloatingPanelMainHostingContainerController<Main: View>: UIViewController 
 /// * Passing through touches on regions without any hit-testable content, by
 ///   `PassthroughView.hitTest(_:with:)` with no event forwarding view.
 /// * Reporting the main hosting view's fitting size for SwiftUI's ideal-size negotiation.
-@available(iOS 14, *)
 class FloatingPanelMainContainerView: PassthroughView {
     weak var mainHostingView: UIView?
 
@@ -220,7 +216,6 @@ class FloatingPanelMainContainerView: PassthroughView {
 
 /// The hosting controller for the main SwiftUI view, which delegates hosting of the
 /// panel's view to its container view controller.
-@available(iOS 14, *)
 class FloatingPanelMainHostingController<Main: View>: UIHostingController<Main>, FloatingPanelHostingControllerProviding {
     weak var containerViewController: UIViewController?
 
@@ -239,7 +234,6 @@ class FloatingPanelMainHostingController<Main: View>: UIHostingController<Main>,
 /// This proxy is introduced to make the implementation more extensible, rather than directly treating a Coordinator
 /// with a lifecycle that spans across FloatingPanelView as a FloatingPanelCoordinator. This object was created to
 /// control `FloatingPanelView/state` binding property.
-@available(iOS 14, *)
 class FloatingPanelCoordinatorProxy {
     private let origin: any FloatingPanelCoordinator
     private var stateBinding: Binding<FloatingPanelState?>
@@ -299,7 +293,6 @@ class FloatingPanelCoordinatorProxy {
     }
 }
 
-@available(iOS 14, *)
 extension FloatingPanelCoordinatorProxy {
     // MARK: - Layout and behavior updates
 
@@ -328,7 +321,6 @@ extension FloatingPanelCoordinatorProxy {
     }
 }
 
-@available(iOS 14, *)
 extension FloatingPanelCoordinatorProxy {
     // MARK: - State updates
 
@@ -345,7 +337,7 @@ extension FloatingPanelCoordinatorProxy {
 
     /// Start observing ``FloatingPanelController/state`` through the `Core` object.
     func observeStateChanges() {
-        controller.floatingPanel.statePublisher?
+        controller.floatingPanel.statePublisher
             .sink { [weak self] state in
                 guard let self = self else { return }
                 // Needs to update the state binding value on the next run loop cycle to avoid this error.
@@ -357,7 +349,6 @@ extension FloatingPanelCoordinatorProxy {
     }
 }
 
-@available(iOS 14, *)
 extension FloatingPanelCoordinatorProxy {
     // MARK: - Environment updates
 

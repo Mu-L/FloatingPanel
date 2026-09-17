@@ -19,7 +19,8 @@ struct ContentView: View {
 
     private var statusBarBlur: some View {
         GeometryReader { geometry in
-            VisualEffectBlur()
+            Rectangle()
+                .fill(.regularMaterial)
                 .frame(height: geometry.safeAreaInsets.top)
                 .ignoresSafeArea()
         }

@@ -5,7 +5,6 @@ import XCTest
 
 @testable import FloatingPanel
 
-@available(iOS 14, *)
 class CoordinatorProxyTests: XCTestCase {
     override func setUp() {}
     override func tearDown() {}
@@ -84,7 +83,6 @@ class CoordinatorProxyTests: XCTestCase {
 
 /// Tests for `FloatingPanelCoordinatorProxy.update(state:)` — the internal bridge between
 /// SwiftUI state bindings and `FloatingPanelController`.
-@available(iOS 14, *)
 extension CoordinatorProxyTests {
     /// During a drag gesture, a delegate callback can trigger a SwiftUI re-render which
     /// calls `update(state:)` with the current state. The fix ensures this redundant call
@@ -147,7 +145,6 @@ extension CoordinatorProxyTests {
 /// before that deferred task runs. In that re-render, `update(state:)` receives
 /// the OLD binding value. These tests verify that the proxy does not move the panel
 /// back to the stale state.
-@available(iOS 14, *)
 extension CoordinatorProxyTests {
 
     /// Simulates the exact bug scenario:
@@ -246,7 +243,6 @@ extension CoordinatorProxyTests {
 
 /// Tests for the parent substitution that keeps the panel's view out of
 /// `UIHostingController.view`, which UIKit doesn't support as of iOS 26.
-@available(iOS 14, *)
 extension CoordinatorProxyTests {
     /// `addPanel(toParent:)` with the main hosting controller must attach the panel
     /// to its container so that the panel's view is laid out above the main hosting

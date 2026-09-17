@@ -3,7 +3,6 @@
 #if canImport(SwiftUI)
 import SwiftUI
 
-@available(iOS 14, *)
 extension View {
     /// Overlays this view with a floating panel.
     ///

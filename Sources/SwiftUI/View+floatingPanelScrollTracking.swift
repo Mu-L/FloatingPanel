@@ -3,7 +3,6 @@
 #if canImport(SwiftUI)
 import SwiftUI
 
-@available(iOS 14, *)
 extension View {
     /// Automatically tracks scroll views within this view for seamless integration with a floating panel.
     ///
@@ -51,7 +50,6 @@ extension View {
     }
 }
 
-@available(iOS 14, *)
 private struct ScrollViewRepresentable<Content>: UIViewControllerRepresentable where Content: View {
     let proxy: FloatingPanelProxy
     let onScrollViewDetected: ((UIScrollView, UIHostingController<Content>) -> Void)?

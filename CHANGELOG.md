@@ -1,5 +1,12 @@
 # ChangeLog
 
+## Unreleased
+
+### Changed
+
+- The minimum deployment target is now **iOS 15.0** for Xcode 27 support. The Xcode project, Swift Package manifest, CocoaPods spec, and all example apps have been updated accordingly.
+- Removed the `@available` / `#available` branches for iOS 14 and earlier from the library, tests, and example apps. `SurfaceAppearance.cornerCurve` and the SwiftUI APIs no longer carry availability attributes.
+
 ## [3.2.4](https://github.com/scenee/FloatingPanel/releases/tag/3.2.4)
 
 ### Fixed

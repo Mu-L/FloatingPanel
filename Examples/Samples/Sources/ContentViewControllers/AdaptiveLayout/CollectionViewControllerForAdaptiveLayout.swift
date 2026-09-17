@@ -3,7 +3,6 @@
 import UIKit
 import FloatingPanel
 
-@available(iOS 13.0, *)
 class CollectionViewControllerForAdaptiveLayout: UIViewController {
     class PanelLayout: FloatingPanelLayout {
         let position: FloatingPanelPosition = .bottom
@@ -78,7 +77,6 @@ class CollectionViewControllerForAdaptiveLayout: UIViewController {
     }
 }
 
-@available(iOS 13.0, *)
 extension CollectionViewControllerForAdaptiveLayout: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 5  // Only three cells needed to fill the space
@@ -97,7 +95,6 @@ extension CollectionViewControllerForAdaptiveLayout: UICollectionViewDataSource,
     }
 }
 
-@available(iOS 13.0, *)
 extension CollectionViewControllerForAdaptiveLayout {
     enum CollectionViewLayoutFactory {
         static var flowLayout: UICollectionViewLayout {
@@ -107,7 +104,6 @@ extension CollectionViewControllerForAdaptiveLayout {
             return layout
         }
 
-        @available(iOS 13.0, *)
         static var compositionalLayout: UICollectionViewLayout {
             UICollectionViewCompositionalLayout { (sectionIndex: Int, layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
                 let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(100))

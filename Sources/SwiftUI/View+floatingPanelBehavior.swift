@@ -3,7 +3,6 @@
 #if canImport(SwiftUI)
 import SwiftUI
 
-@available(iOS 14, *)
 extension EnvironmentValues {
     struct BehaviorKey: EnvironmentKey {
         static var defaultValue: FloatingPanelBehavior = FloatingPanelDefaultBehavior()
@@ -15,7 +14,6 @@ extension EnvironmentValues {
     }
 }
 
-@available(iOS 14, *)
 extension View {
     /// Sets the behavior object controlling the interactive dynamics of floating panels within this view.
     ///

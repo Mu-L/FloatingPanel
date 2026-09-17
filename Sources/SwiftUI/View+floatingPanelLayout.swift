@@ -3,7 +3,6 @@
 #if canImport(SwiftUI)
 import SwiftUI
 
-@available(iOS 14, *)
 extension EnvironmentValues {
     struct LayoutKey: EnvironmentKey {
         static var defaultValue: FloatingPanelLayout = FloatingPanelBottomLayout()
@@ -15,7 +14,6 @@ extension EnvironmentValues {
     }
 }
 
-@available(iOS 14, *)
 extension View {
     /// Sets the layout object that defines the position and dimensions of floating panels within this view.
     ///

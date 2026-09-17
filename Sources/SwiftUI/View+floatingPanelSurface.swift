@@ -3,7 +3,6 @@
 #if canImport(SwiftUI)
 import SwiftUI
 
-@available(iOS 14, *)
 extension EnvironmentValues {
     struct SurfaceAppearanceKey: EnvironmentKey {
         static var defaultValue = SurfaceAppearance()
@@ -24,7 +23,6 @@ extension EnvironmentValues {
     }
 }
 
-@available(iOS 14, *)
 extension View {
     /// Sets the surface appearance for floating panels within this view.
     ///

@@ -3,7 +3,6 @@
 #if canImport(SwiftUI)
 import SwiftUI
 
-@available(iOS 14, *)
 extension FloatingPanel.SurfaceAppearance {
     /// Creates a transparent surface appearance with customizable borders, corners, and shadows.
     ///

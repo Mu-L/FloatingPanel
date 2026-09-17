@@ -36,9 +36,6 @@ Click here
 - iOS 15 or later
 - Xcode 16 or later
 
-> [!NOTE]
-> The SwiftUI API can be used on iOS 14, but it's out of the supported versions.
-
 ## Goals
 
 1. Build SwiftUI APIs on top of our battle-tested UIKit implementation
@@ -64,7 +61,7 @@ Click here
 - Built targeting Xcode 16 as the primary development environment
   - Maintains backward compatibility with Xcode 14/15 for UIKit support but gradually migrates to full Xcode 16+ features
 - iOS version compatibility:
-  - Our SwiftUI integration builds for iOS 14 or later, but has been primarily tested on iOS 15+
+  - Our SwiftUI integration requires iOS 15 or later, the same as the library's minimum deployment target
 
 ## API implementation considerations
 

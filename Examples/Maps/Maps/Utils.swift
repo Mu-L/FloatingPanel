@@ -10,10 +10,6 @@ extension Collection {
 
 extension UIViewController {
     var isLandscape: Bool {
-        if #available(iOS 13.0, *) {
-            return view.window?.windowScene?.interfaceOrientation.isLandscape ?? false
-        } else {
-            return UIApplication.shared.statusBarOrientation.isLandscape
-        }
+        return view.window?.windowScene?.interfaceOrientation.isLandscape ?? false
     }
 }

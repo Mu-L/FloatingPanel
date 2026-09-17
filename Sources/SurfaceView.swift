@@ -37,13 +37,7 @@ public class SurfaceAppearance: NSObject {
 
     }
     /// The background color of a surface view
-    public var backgroundColor: UIColor? = {
-        if #available(iOS 13, *) {
-            return UIColor.systemBackground
-        } else {
-            return UIColor.white
-        }
-    }()
+    public var backgroundColor: UIColor? = .systemBackground
 
     #if compiler(>=6.2)
     @available(iOS 26.0, *)
@@ -57,20 +51,13 @@ public class SurfaceAppearance: NSObject {
 
     /// The radius to use when drawing the top rounded corners.
     ///
-    /// `self.contentView` is masked with the top rounded corners automatically on iOS 11 and later.
-    /// On iOS 10, they are not automatically masked because of a UIVisualEffectView issue. See https://forums.developer.apple.com/thread/50854
+    /// `self.contentView` is masked with the top rounded corners automatically.
     public var cornerRadius: CGFloat = 0.0
 
     /// Defines the curve used for rendering the rounded corners of the layer.
     ///
     /// Defaults to `.circular`.
-    @available(iOS 13.0, *)
-    public var cornerCurve: CALayerCornerCurve {
-        get { _cornerCurve as? CALayerCornerCurve ?? .circular }
-        set { _cornerCurve = newValue }
-    }
-
-    private var _cornerCurve: Any?
+    public var cornerCurve: CALayerCornerCurve = .circular
 
     /// An array of shadows used to create drop shadows underneath a surface view.
     public var shadows: [Shadow] = [Shadow()]
@@ -410,15 +397,13 @@ public class SurfaceView: UIView {
             #if compiler(>=6.2)
             if #available(iOS 26.0, *), appearance.cornerConfiguration != nil {
                 // Corner curve is handled by UICornerConfiguration
-            } else if #available(iOS 13.0, *) {
+            } else {
                 containerView.layer.cornerCurve = appearance.cornerCurve
                 mask.cornerCurve = appearance.cornerCurve
             }
             #else
-            if #available(iOS 13.0, *) {
-                containerView.layer.cornerCurve = appearance.cornerCurve
-                mask.cornerCurve = appearance.cornerCurve
-            }
+            containerView.layer.cornerCurve = appearance.cornerCurve
+            mask.cornerCurve = appearance.cornerCurve
             #endif
 
             shadowLayer.mask = mask

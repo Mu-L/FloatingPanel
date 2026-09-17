@@ -3,7 +3,6 @@
 #if canImport(SwiftUI)
 import SwiftUI
 
-@available(iOS 14, *)
 extension EnvironmentValues {
     struct StateKey: EnvironmentKey {
         static var defaultValue: Binding<FloatingPanelState?> = .constant(nil)
@@ -15,7 +14,6 @@ extension EnvironmentValues {
     }
 }
 
-@available(iOS 14, *)
 extension View {
     /// Sets a binding to track and control the floating panel's state.
     ///

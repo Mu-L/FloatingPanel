@@ -2,7 +2,6 @@
 
 import UIKit
 
-@available(iOS 14, *)
 class DebugListCollectionViewController: UIViewController {
 
     enum Section {
@@ -20,7 +19,6 @@ class DebugListCollectionViewController: UIViewController {
     }
 }
 
-@available(iOS 14, *)
 extension DebugListCollectionViewController {
     /// - Tag: List
     private func createLayout() -> UICollectionViewLayout {
@@ -40,7 +38,6 @@ extension DebugListCollectionViewController {
     }
 }
 
-@available(iOS 14, *)
 extension DebugListCollectionViewController {
     private func configureHierarchy() {
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
@@ -69,7 +66,6 @@ extension DebugListCollectionViewController {
     }
 }
 
-@available(iOS 14, *)
 extension DebugListCollectionViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)

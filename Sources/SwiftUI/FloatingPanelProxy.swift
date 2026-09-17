@@ -28,7 +28,6 @@ import SwiftUI
 ///         }
 ///     }
 /// ```
-@available(iOS 14, *)
 public struct FloatingPanelProxy {
     /// The associated floating panel controller.
     ///
@@ -82,7 +81,6 @@ public struct FloatingPanelProxy {
     }
 }
 
-@available(iOS 14, *)
 extension FloatingPanelProxy {
     /// Tracks the specified scroll view to coordinate panel and scroll movements.
     ///

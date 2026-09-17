@@ -70,9 +70,8 @@ extension UseCaseController {
             fpc.surfaceView.addGestureRecognizer(tapGesture)
 
             fpc.set(contentViewController: contentVC)
-            if #available(iOS 14, *),
-                let scrollView = (fpc.contentViewController as? DebugListCollectionViewController)?.collectionView {
-                    fpc.track(scrollView: scrollView)
+            if let scrollView = (fpc.contentViewController as? DebugListCollectionViewController)?.collectionView {
+                fpc.track(scrollView: scrollView)
             }
             addMain(panel: fpc)
 
@@ -197,7 +196,7 @@ extension UseCaseController {
             fpc.set(contentViewController: contentVC)
             fpc.ext_trackScrollView(in: contentVC)
 
-            guard let window = UIApplication.shared.windows.first else { fatalError("Any window not found") }
+            guard let window = mainVC.view.window else { fatalError("Any window not found") }
 
             window.addSubview(fpc.view)
             fpc.view.frame = window.bounds
@@ -241,11 +240,7 @@ extension UseCaseController {
 
             fpc.surfaceView.backgroundColor = .red
             fpc.surfaceView.containerMargins = .init(top: 24.0, left: 8.0, bottom: max(mainVC.layoutInsets.bottom, 8.0), right: 8.0)
-            #if swift(>=5.1) // Actually Xcode 11 or later
-            if #available(iOS 13.0, *) {
-                fpc.surfaceView.layer.cornerCurve = .continuous
-            }
-            #endif
+            fpc.surfaceView.layer.cornerCurve = .continuous
 
             fpc.delegate = self
             fpc.isRemovalInteractionEnabled = true
@@ -302,10 +297,8 @@ extension UseCaseController {
                 return appearance
             }()
             fpc.set(contentViewController: contentVC)
-            if #available(iOS 13, *) {
-                fpc.track(scrollView: (contentVC as! CollectionViewControllerForAdaptiveLayout).collectionView)
-                fpc.layout = CollectionViewControllerForAdaptiveLayout.PanelLayout(targetGuide: contentVC.view.makeBoundsLayoutGuide())
-            }
+            fpc.track(scrollView: (contentVC as! CollectionViewControllerForAdaptiveLayout).collectionView)
+            fpc.layout = CollectionViewControllerForAdaptiveLayout.PanelLayout(targetGuide: contentVC.view.makeBoundsLayoutGuide())
             addMain(panel: fpc)
 
         case .showCustomStatePanel:
