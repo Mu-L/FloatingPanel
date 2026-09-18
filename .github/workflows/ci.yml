@@ -19,6 +19,9 @@ jobs:
       matrix:
         include:
           - swift: "5"
+            xcode: "27.0"
+            runs-on: xcode-27
+          - swift: "5"
             xcode: "26.6"
             runs-on: macos-26
           - swift: "5"
@@ -37,6 +40,11 @@ jobs:
       fail-fast: false
       matrix:
         include:
+          - os: "27.0"
+            xcode: "27.0"
+            sim: "iPhone 18 Pro"
+            parallel: NO # Stop random test job failures
+            runs-on: xcode-27
           - os: "26.5"
             xcode: "26.6"
             sim: "iPhone 17 Pro"
@@ -88,13 +96,22 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        xcode: ["26.6", "16.4"]
+        xcode: ["27.0", "26.6", "16.4"]
         platform: [iphoneos, iphonesimulator]
         arch: [x86_64, arm64]
         exclude:
           - platform: iphoneos
             arch: x86_64
         include:
+          # 27.x
+          - platform: iphoneos
+            xcode: "27.0"
+            sys: "ios27.0"
+            runs-on: xcode-27
+          - platform: iphonesimulator
+            xcode: "27.0"
+            sys: "ios27.0-simulator"
+            runs-on: xcode-27
           # 26.x
           - platform: iphoneos
             xcode: "26.6"
@@ -119,7 +136,7 @@ jobs:
         run: |
           xcrun swift build \
             --sdk "$(xcrun --sdk ${{ matrix.platform }} --show-sdk-path)" \
-            -Xswiftc "-target" -Xswiftc "${{ matrix.arch }}-apple-${{ matrix.sys }}"
+            --triple "${{ matrix.arch }}-apple-${{ matrix.sys }}"
 
   cocoapods:
     runs-on: macos-26
